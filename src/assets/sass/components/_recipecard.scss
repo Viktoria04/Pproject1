@@ -11,12 +11,14 @@
   }
 
   &__title {
-    color: $text-primary;
+    color: black;
     margin: 5px 0;
   }
 
   &__button {
     @include button-primary();
     width: 100%;
+    color: black;
+    border-color: black;
   }
 }

@@ -6,8 +6,6 @@ import Recipe from './pages/Recipe'
 import MainForm from './components/MainForm';
 
 const App = () => {
-
-
   return (
     <div className="App" style={style}>
     <Link to="/" className="App__title">Cool Recipes</Link>
@@ -36,7 +34,7 @@ const App = () => {
 };
 
 const style = {
-  backgroundImage: `url(${require('./assets/img/bg.jpg')})`
+  backgroundImage: `url(${require('./assets/img/bgg.jpg')})`
 };
 
 export default App;

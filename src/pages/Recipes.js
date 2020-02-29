@@ -7,50 +7,38 @@ import Spinner from '../util/Spinner';
 const Recipes = () => {
     const { searchQuery } = useContext(RecipesContext);
     const [recipes, setRecipes] = useState(null);
-    const [error, setError] = useState(false);
 
+  
     useEffect(() => {
-        fetchRecipes();
-    });
-
+      fetchRecipes();
+    }, [searchQuery]);
+  
+    /**
+     * Get list of recipes matching the query
+     */
     const fetchRecipes = async () => {
-        const response = await api.getRecipes(`filter.php?i=${searchQuery}`);
-        const data = await response.data.meals;
-        if (!data) {
-            setError(true);
-        }
-        setRecipes(data);
+      const response = await api.getRecipes(`filter.php?i=${searchQuery}`);
+      const data = await response.data.meals;
+      setRecipes(data);
     };
-
-    const recipesRenderer = ({idMeal, strMeal, strMealThumb}, index) => {
-        let recipeCard = null;
-        if (index < 8) {
-            recipeCard =
-            <RecipesCard 
-                image={strMealThumb}
-                title={strMeal}
-                key={index}
-                id={idMeal}
-            />
-        }
-        return recipeCard;
-    }
-
-    const recipesGridRerenderer = () => {
-        if (recipes) {
-            return recipes.map(recipesRenderer);
-        }else if(error) {
-            return <h2>No meals for that query, please try something else.</h2>
-        }else {
-            return <Spinner/>
-        }
-    }
-
+  
     return (
-        <div className="Recipes">
-        {recipesGridRerenderer()}
-        </div>
+      <div className="Recipes">
+        {recipes ? recipes.map((item, index) => {
+          let recipeCard = null;
+          if (index < 8) {
+            recipeCard =
+              <RecipesCard
+                key={index}
+                id={item.idMeal}
+                title={item.strMeal}
+                image={item.strMealThumb}
+              />
+          }
+          return recipeCard;
+        }) : <Spinner/> && <h2> No meals for that query, please try something else. </h2>}
+      </div>
     );
-};
-
-export default Recipes;
+  };
+  
+  export default Recipes;
